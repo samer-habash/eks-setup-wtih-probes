@@ -5,8 +5,21 @@ This project was attended by Develeap :
 -   A python app will be deployed after creating the cluster using the regular kubectl with its yaml deployment file (it can be done through jenkins CD)
 -   The python app is a testing app for checking the kubernetes Probes.
 
-Please check below for more info.
-  
+Usage :
+
+1. Applying EKS cluster : go to directory /eks-cluster-create/projects/EKS-Cluster-Deploy/ and apply terraform apply.
+                          NOTE: in the same directory check the text file "apply-terraform-outputs.txt" in order to grab the kubeconfig of the cluster and the aws-auth configMap.
+2. Deploying the app as a deployment yaml file which exists in directory "Deploy-app-with-probes-on-k8s" and its name "k8s-deploy-app-with-probes.yaml"    
+2. Testing the app for readinessProbe : please visit the path URL as : http://eks-node---/healthz
+   Testing the app for livenessProbe : please visit the path URL as : http://eks-node---/error
+   Testing the livenessProbe app using tcpSocker : first change the livenessProbe as tcpSocket check in the Yaml file as in the kubernetes doc :
+       """
+       livenessProbe:
+         tcpSocket:
+           port: 5050 # in our case the containerPort is 5050.
+       """
+       Then re-apply the deployment then visit the path URL : http://ec2-node---/error
+                            
 
 Directories :
 - [x] app-with-probes

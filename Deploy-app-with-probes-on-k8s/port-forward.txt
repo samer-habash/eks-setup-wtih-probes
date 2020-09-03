@@ -1,0 +1,1 @@
+kubectl port-forward pod/$(kubectl get pods -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}{end}' | grep  "app-with-probes") 8090:5050

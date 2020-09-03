@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: app-with-probes
+    tier: frontend
+  name: app-with-probes
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-with-probes
+      tier: frontend
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: app-with-probes
+        tier: frontend
+    spec:
+      containers:
+      - image: samer1984/app-with-probes:v1.0
+        imagePullPolicy: IfNotPresent
+        name: app-with-probes
+        ports:
+          - containerPort: 5050
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 5050
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        livenessProbe:
+          exec:
+            command:
+              - /bin/sh
+              - -c
+              - /app/error-check.sh
+          initialDelaySeconds: 10
+          periodSeconds: 5

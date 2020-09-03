@@ -1,0 +1,6 @@
+ ⚡ ➤➤ terraform output  kubeconfig > aws_eks_kubeconfig
+ ⚡ ➤➤ terraform output config_map_aws_auth > config_map_aws_auth.yaml
+
+
+# Connect to aws eks cluster using aws_eks_kubeconfig:
+ ⚡ ➤➤ kubectl get all --all-namespaces --kubeconfig aws_eks_kubeconfig
